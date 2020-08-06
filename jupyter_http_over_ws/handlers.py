@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """Jupyter server extension which supports HTTP-over-websocket communication."""
+import os
 
 import base64
 import collections
@@ -382,7 +383,8 @@ class ProxiedSocketHandler(_WebSocketHandlerBase):
   this server forwards requests to.
   """
 
-  _PATH_PREFIX = '/http_over_websocket/proxied_ws/'
+  # fix for kubeflow
+  _PATH_PREFIX = os.environ['JUPYTER_SERVER_URL'] +'http_over_websocket/proxied_ws/'
   PATH = _PATH_PREFIX + '.+'
 
   def __init__(self, *args, **kwargs):
