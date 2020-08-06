@@ -384,7 +384,7 @@ class ProxiedSocketHandler(_WebSocketHandlerBase):
   """
 
   # fix for kubeflow
-  _PATH_PREFIX = os.environ['JUPYTER_SERVER_URL'] +'http_over_websocket/proxied_ws/'
+  _PATH_PREFIX = '/http_over_websocket/proxied_ws/'
   PATH = _PATH_PREFIX + '.+'
 
   def __init__(self, *args, **kwargs):
@@ -421,9 +421,10 @@ class ProxiedSocketHandler(_WebSocketHandlerBase):
   @gen.coroutine
   def _on_open(self):
     # Only proxy local connections.
-    proxy_path = self.request.uri.replace(self._PATH_PREFIX, '/')
-    proxy_url = '{}://{}{}'.format(_PROTOCOL_MAP[self.request.protocol],
-                                   self.request.host, proxy_path)
+    proxy_path = self.request.uri.replace(self._PATH_PREFIX, os.environ['JUPYTER_SERVER_URL'])
+    proxy_url = os.environ['JUPYTER_SERVER_URL'] +
+    #proxy_url = '{}://{}{}'.format(_PROTOCOL_MAP[self.request.protocol],
+    #                               self.request.host, proxy_path)
     yield self._attach_auth_cookies()
 
     self.log.info('proxying WebSocket connection to: {}'.format(proxy_url))
