@@ -422,7 +422,7 @@ class ProxiedSocketHandler(_WebSocketHandlerBase):
   def _on_open(self):
     # Only proxy local connections.
     proxy_path = self.request.uri.replace(self._PATH_PREFIX, os.environ['JUPYTER_SERVER_URL'])
-    proxy_url = os.environ['JUPYTER_SERVER_URL'] +
+    proxy_url = os.environ['JUPYTER_SERVER_URL']
     #proxy_url = '{}://{}{}'.format(_PROTOCOL_MAP[self.request.protocol],
     #                               self.request.host, proxy_path)
     yield self._attach_auth_cookies()
